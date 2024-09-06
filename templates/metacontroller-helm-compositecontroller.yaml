@@ -1,0 +1,13 @@
+apiVersion: metacontroller.k8s.io/v1alpha1
+kind: CompositeController
+metadata:
+  name: neo4j-helm-controller
+spec:
+  generateSelector: true
+  parentResource:
+    apiVersion: neo4j.com/v1
+    resource: neo4jhelmdeployments
+  hooks:
+    sync:
+      webhook:
+        url: http://sync-service.neo4j/sync
