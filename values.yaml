@@ -1,0 +1,41 @@
+image:
+  repository: neo4j-operator
+  tag: latest
+  imagePullPolicy: IfNotPresent
+
+
+serviceAccount:
+  create: true
+  name: "metacontroller"
+
+namespace: neo4j
+
+syncService:
+  port: 8081
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+  storageClass: "standard"  
+
+
+service:
+  port: 7474  
+  targetPort: 7474
+  type: ClusterIP
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 3
+  cpuUtilization: 50  
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
