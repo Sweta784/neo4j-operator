@@ -1,0 +1,13 @@
+Neo4j has been deployed on your Kubernetes cluster.
+
+1. Get the Neo4j service by running:
+
+  kubectl get svc --namespace {{ .Release.Namespace }} -w {{ include "neo4j-operator.fullname" . }}
+
+2. Once the service is up, you can access Neo4j by visiting the following URL:
+
+  http://<LoadBalancer-IP>:7474
+  
+3. For Bolt protocol:
+
+  bolt://<LoadBalancer-IP>:7687
