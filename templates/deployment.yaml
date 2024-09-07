@@ -22,3 +22,14 @@ spec:
             - containerPort: {{ .Values.syncService.port }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          env: 
+            - name: ENV_VAR_NAME
+              value: {{ .Values.envVars.envVarName | default "default-value" }}
+            - name: ANOTHER_ENV_VAR
+              value: {{ .Values.envVars.anotherEnvVar | default "default-value" }}
+          volumeMounts:
+            - name: my-volume
+              mountPath: /path/in/container
+      volumes:
+        - name: my-volume
+          emptyDir: {}
