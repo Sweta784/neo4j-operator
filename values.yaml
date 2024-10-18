@@ -1,89 +1,46 @@
 image:
-
   repository: sweta037/neoj-operator
-
   tag: v1.0
-
   imagePullPolicy: Always
 
-
-
-
 serviceAccount:
-
   create: true
-
   name: "metacontroller"
-
-
-
 
 namespace: neo4j
 
-
-
-
 syncService:
-
   port: 8081
-
-
-
 
 persistence:
-
   enabled: true
-
   accessModes:
-
     - ReadWriteOnce
-
   size: 10Gi
-
   storageClass: "longhorn"
 
-
-
-
 service:
-
   port: 8081
-
   targetPort: 8081
-
   type: ClusterIP
 
-
-
+# Add backup service configuration
+backup:
+  enabled: true         # Enable backup service
+  port: 6362           # Specify the backup port
 
 hpa:
-
   minReplicas: 1
-
   maxReplicas: 1
 
-
-
-
 resources:
-
   requests:
-
     memory: "256Mi"
-
     cpu: "100m"
-
   limits:
-
     memory: "512Mi"
-
     cpu: "500m"
 
-
-
-
 envVars:
-
   envVarName: "your-value-here"
-
   anotherEnvVar: "another-value-here"
