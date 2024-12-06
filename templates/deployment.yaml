@@ -1,35 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sync-service
-  namespace: {{ .Values.namespace }}
+  name: neo4j-operator
+  namespace: {{ .Release.Namespace }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: sync-service
+      app: neo4j-operator
   template:
     metadata:
       labels:
-        app: sync-service
+        app: neo4j-operator
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       containers:
-        - name: sync-service
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
-          ports:
-            - containerPort: {{ .Values.syncService.port }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          env: 
-            - name: ENV_VAR_NAME
-              value: {{ .Values.envVars.envVarName | default "default-value" }}
-            - name: ANOTHER_ENV_VAR
-              value: {{ .Values.envVars.anotherEnvVar | default "default-value" }}
-          volumeMounts:
-            - name: my-volume
-              mountPath: /path/in/container
-      volumes:
-        - name: my-volume
-          emptyDir: {}
+      - name: neo4j-operator
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
